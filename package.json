@@ -26,5 +26,10 @@
 		"deploy": "bun run build && wrangler pages deploy",
 		"cf-typegen": "wrangler types && move worker-configuration.d.ts src/"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@hono/zod-validator": "^0.4.2",
+		"hono": "^4.7.0",
+		"zod": "^3.24.1"
+	}
 }
