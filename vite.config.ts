@@ -13,6 +13,6 @@ export default defineConfig({
 		// 	adapter,
 		// 	entry: 'src/lib/api/api.ts'
 		// }),
-		// build()
+		build()
 	]
 });
