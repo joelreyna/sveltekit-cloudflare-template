@@ -1,16 +1,23 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
-import { notFound, onError } from 'stoker/middlewares';
-import { pinoLoggerMiddleware } from './middlewares/pinno-logger';
-import type { PinoLogger } from 'hono-pino';
+import createApp from '$lib/api/lib/createApp';
+import configureOpenAPI from '$lib/api/lib/configure-openapi';
+import index from '$lib/api/routes/index.route';
+import tasks from '$lib/api/routes/tasks/tasks.index';
+const app = createApp();
+
+const routes = [
+    index,
+    tasks
+];
+
+configureOpenAPI(app);
+
+routes.forEach((route) => {
+    app.route('/api', route);
+});
 
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
-
-type AppBindings = {
-    Variables: {
-        logger: PinoLogger
-    }
-}
 
 export const Task = z.object({
     id: z.string().uuid(),
@@ -28,10 +35,10 @@ export type TaskParam = z.infer<typeof TaskParam>;
 /**
  * This will be our in-memory data store
  */
-let tasks: Task[] = [];
+let tasksArray: Task[] = [];
 
 export const router = new OpenAPIHono()
-    .get('/tasks', (c) => c.json<Task[]>(tasks))
+    .get('/tasks', (c) => c.json<Task[]>(tasksArray))
     .post('/tasks', zValidator('json', TaskCreateInput), (c) => {
         const body = c.req.valid('json');
         const task = {
@@ -39,12 +46,12 @@ export const router = new OpenAPIHono()
             name: body.name,
             done: false
         };
-        tasks = [...tasks, task];
+        tasksArray = [...tasksArray, task];
         return c.json(task);
     })
     .post('/tasks/:id/finish', zValidator('param', TaskParam), (c) => {
         const { id } = c.req.valid('param');
-        const task = tasks.find((task) => task.id === id);
+        const task = tasksArray.find((task) => task.id === id);
         if (task) {
             task.done = true;
             return c.json(task);
@@ -54,7 +61,7 @@ export const router = new OpenAPIHono()
     })
     .post('/tasks/:id/undo', zValidator('param', TaskParam), (c) => {
         const { id } = c.req.valid('param');
-        const task = tasks.find((task) => task.id === id);
+        const task = tasksArray.find((task) => task.id === id);
         if (task) {
             task.done = false;
             return c.json(task);
@@ -64,21 +71,10 @@ export const router = new OpenAPIHono()
     })
     .post('/tasks/:id/delete', zValidator('param', TaskParam), (c) => {
         const { id } = c.req.valid('param');
-        tasks = tasks.filter((task) => task.id !== id);
+        tasksArray = tasksArray.filter((task) => task.id !== id);
         return c.json({ message: 'Task deleted' });
     });
 export type Router = typeof router;
-
-const app = new OpenAPIHono<AppBindings>();
-app.use(pinoLoggerMiddleware());
-
-app.get('/api/error', (c) => {
-    c.var.logger.debug("Wow")
-    throw new Error('Test error');
-});
-
-app.notFound(notFound);
-app.onError(onError);
 
 app.route('/api', router);
 

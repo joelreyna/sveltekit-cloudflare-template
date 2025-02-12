@@ -12,7 +12,18 @@
   "pages_build_output_dir": ".svelte-kit/cloudflare",
   "observability": {
     "enabled": true
-  }
+  },
+
+  // d1_databases
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sveltekit-cloudflare-test",
+      "database_id": "5fb03b33-ee0d-4a3e-ab80-473b5e5193f2",
+      "migrations_dir": "drizzle/migrations"
+    }
+  ]
+
   /**
    * Smart Placement
    * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
