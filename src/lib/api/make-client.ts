@@ -1,4 +1,4 @@
-import type { Router } from '$lib/api';
+import type { Router } from '$lib/api/api';
 import { hc } from 'hono/client';
 
 let browserClient: ReturnType<typeof hc<Router>>;

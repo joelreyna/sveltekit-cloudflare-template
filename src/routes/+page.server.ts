@@ -1,5 +1,5 @@
-import { TaskCreateInput } from '$lib/api';
-import { makeClient } from '$lib/make-client';
+import { TaskCreateInput } from '$lib/api/api';
+import { makeClient } from '$lib/api/make-client';
 import type { Actions } from '@sveltejs/kit';
 
 export const actions = {

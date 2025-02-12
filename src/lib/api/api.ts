@@ -1,17 +1,25 @@
+import { OpenAPIHono } from '@hono/zod-openapi';
+import { notFound, onError } from 'stoker/middlewares';
+import { pinoLoggerMiddleware } from './middlewares/pinno-logger';
+import type { PinoLogger } from 'hono-pino';
+
 import { zValidator } from '@hono/zod-validator';
-import { Hono } from 'hono';
 import { z } from 'zod';
+
+type AppBindings = {
+    Variables: {
+        logger: PinoLogger
+    }
+}
 
 export const Task = z.object({
     id: z.string().uuid(),
     name: z.string().min(1),
     done: z.boolean()
 });
-
 export type Task = z.infer<typeof Task>;
 
 export const TaskCreateInput = Task.pick({ name: true });
-
 export type TaskCreateInput = z.infer<typeof TaskCreateInput>;
 
 export const TaskParam = Task.pick({ id: true });
@@ -22,7 +30,7 @@ export type TaskParam = z.infer<typeof TaskParam>;
  */
 let tasks: Task[] = [];
 
-export const router = new Hono()
+export const router = new OpenAPIHono()
     .get('/tasks', (c) => c.json<Task[]>(tasks))
     .post('/tasks', zValidator('json', TaskCreateInput), (c) => {
         const body = c.req.valid('json');
@@ -59,7 +67,19 @@ export const router = new Hono()
         tasks = tasks.filter((task) => task.id !== id);
         return c.json({ message: 'Task deleted' });
     });
-
-export const api = new Hono().route('/api', router);
-
 export type Router = typeof router;
+
+const app = new OpenAPIHono<AppBindings>();
+app.use(pinoLoggerMiddleware());
+
+app.get('/api/error', (c) => {
+    c.var.logger.debug("Wow")
+    throw new Error('Test error');
+});
+
+app.notFound(notFound);
+app.onError(onError);
+
+app.route('/api', router);
+
+export const api = app;

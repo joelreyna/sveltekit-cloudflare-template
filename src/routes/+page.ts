@@ -1,4 +1,4 @@
-import { makeClient } from '$lib/make-client';
+import { makeClient } from '$lib/api/make-client';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch, depends }) => {

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
     import { invalidate } from '$app/navigation';
-    import { makeClient } from '$lib/make-client.js';
+    import { makeClient } from '$lib/api/make-client.js';
 
     const { data } = $props();
     const client = makeClient(fetch);
