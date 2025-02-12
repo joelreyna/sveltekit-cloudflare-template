@@ -3,8 +3,8 @@ import { createRoute } from '@hono/zod-openapi';
 import { jsonContent } from 'stoker/openapi/helpers';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
-import { z } from 'zod';
 import { createMessageObjectSchema } from 'stoker/openapi/schemas';
+import { tasks } from '$lib/db/schema';
 
 const router = createRouter()
     .openapi(createRoute({
@@ -18,9 +18,10 @@ const router = createRouter()
             )
         }
     }),
-    (c) => {
-        const db = c.var.db;
-        console.log(db);
+    async (c) => {
+        const result = await c.var.db.select().from(tasks);
+
+        console.log("result", result);
 
         return c.json({
             message: 'Tasks API'

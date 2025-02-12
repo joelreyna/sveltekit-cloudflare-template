@@ -79,3 +79,5 @@ export type Router = typeof router;
 app.route('/api', router);
 
 export const api = app;
+
+export default app;

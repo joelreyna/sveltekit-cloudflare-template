@@ -30,6 +30,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@hono/vite-cloudflare-pages": "^0.4.2",
+		"@hono/vite-dev-server": "^0.18.1",
 		"@hono/zod-openapi": "^0.18.4",
 		"@hono/zod-validator": "^0.4.2",
 		"@scalar/hono-api-reference": "^0.5.172",
