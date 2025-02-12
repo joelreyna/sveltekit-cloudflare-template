@@ -3,11 +3,11 @@
     import { invalidate } from '$app/navigation';
     import { makeClient } from '$lib/make-client.js';
 
-    export let data;
+    const { data } = $props();
     const client = makeClient(fetch);
 
-    let isLoading = false;
-    let taskName = '';
+    let isLoading = $state(false);
+    let taskName = $state('');
 
     async function handleActionClick(id: string, action: `${keyof (typeof client.tasks)[':id']}`) {
         try {
@@ -15,7 +15,8 @@
             await client.tasks[':id'][action].$post({
                 param: { id }
             });
-            await invalidate(client.tasks.$url());
+
+            await invalidate('app:tasks');
         } catch (error) {
             console.error(error);
         } finally {
@@ -45,12 +46,12 @@
                     {task.done ? '✅' : '⬛️'}
                     {task.name}
                     {#if !task.done}
-                        <button type="button" on:click={() => handleActionClick(task.id, 'finish')}
+                        <button type="button" onclick={() => handleActionClick(task.id, 'finish')}
                             >Finish</button
                         >
                     {:else}
-                        <button type="button" on:click={() => handleActionClick(task.id, 'undo')}>Undo</button>
-                        <button type="button" on:click={() => handleActionClick(task.id, 'delete')}
+                        <button type="button" onclick={() => handleActionClick(task.id, 'undo')}>Undo</button>
+                        <button type="button" onclick={() => handleActionClick(task.id, 'delete')}
                             >Delete</button
                         >
                     {/if}

@@ -1,7 +1,8 @@
 import { makeClient } from '$lib/make-client';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, depends }) => {
+    depends('app:tasks');
     const client = makeClient(fetch);
     const tasks = await client.tasks.$get();
 
