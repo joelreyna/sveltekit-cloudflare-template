@@ -7,12 +7,12 @@ import build from '@hono/vite-cloudflare-pages'
 
 export default defineConfig({
 	plugins: [
-		sveltekit(),
-		tailwindcss(),
+		build(),
 		devServer({
 			adapter,
 			entry: 'src/lib/api/api.ts'
 		}),
-		// build()
+		sveltekit(),
+		tailwindcss(),
 	]
 });

@@ -1,0 +1,8 @@
+{
+  "virtual:cloudflare-pages-entry-module": {
+    "file": "_worker.js",
+    "name": "_virtual_cloudflare-pages-entry-module",
+    "src": "virtual:cloudflare-pages-entry-module",
+    "isEntry": true
+  }
+}
