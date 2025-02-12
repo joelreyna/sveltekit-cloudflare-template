@@ -9,10 +9,10 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		tailwindcss(),
-		// devServer({
-		// 	adapter,
-		// 	entry: 'src/lib/api/api.ts'
-		// }),
-		build()
+		devServer({
+			adapter,
+			entry: 'src/lib/api/api.ts'
+		}),
+		// build()
 	]
 });
