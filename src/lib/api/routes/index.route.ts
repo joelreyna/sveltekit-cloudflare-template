@@ -4,7 +4,6 @@ import { jsonContent } from 'stoker/openapi/helpers';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import { createMessageObjectSchema } from 'stoker/openapi/schemas';
-import { tasks } from '$lib/db/schema';
 
 const router = createRouter()
     .openapi(createRoute({
@@ -19,10 +18,6 @@ const router = createRouter()
         }
     }),
     async (c) => {
-        const result = await c.var.db.select().from(tasks);
-
-        console.log("result", result);
-
         return c.json({
             message: 'Tasks API'
         }, HttpStatusCodes.OK);
