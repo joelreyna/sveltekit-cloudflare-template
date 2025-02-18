@@ -28,7 +28,6 @@
                 });
             }
 
-            console.log('invalidating');
             await invalidate('app:tasks');
         } catch (error) {
             console.error(error);

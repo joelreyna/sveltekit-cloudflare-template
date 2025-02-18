@@ -5,14 +5,15 @@ import { ZodError } from 'zod';
 
 export const actions = {
     async default({ fetch, request }) {
-        console.log('actions');
         const client = makeClient(fetch);
         const form = await request.formData();
-        console.log('actions');
-        console.log(form);
 
         try {
-            const data = insertTasksSchema.parse(Object.fromEntries(form));
+            const data = insertTasksSchema.parse({
+                ...Object.fromEntries(form),
+                done: false
+            });
+
             const response = await client.tasks.$post({
                 json: data
             });
