@@ -9,13 +9,26 @@
     let isLoading = $state(false);
     let taskName = $state('');
 
-    async function handleActionClick(id: string, action: `${keyof (typeof client.tasks)[':id']}`) {
+    async function handleActionClick(id: number, action: 'finish' | 'undo' | 'delete') {
         try {
             isLoading = true;
-            await client.tasks[':id'][action].$post({
-                param: { id }
-            });
+            if (action === 'finish') {
+                await client.tasks[':id'].$patch({
+                    param: { id },
+                    json: { done: true }
+                });
+            } else if (action === 'undo') {
+                await client.tasks[':id'].$patch({
+                    param: { id },
+                    json: { done: false }
+                });
+            } else if (action === 'delete') {
+                await client.tasks[':id'].$delete({
+                    param: { id }
+                });
+            }
 
+            console.log('invalidating');
             await invalidate('app:tasks');
         } catch (error) {
             console.error(error);
@@ -46,14 +59,10 @@
                     {task.done ? '✅' : '⬛️'}
                     {task.name}
                     {#if !task.done}
-                        <button type="button" onclick={() => handleActionClick(task.id, 'finish')}
-                            >Finish</button
-                        >
+                        <button type="button" onclick={() => handleActionClick(task.id, 'finish')}>Finish</button>
                     {:else}
                         <button type="button" onclick={() => handleActionClick(task.id, 'undo')}>Undo</button>
-                        <button type="button" onclick={() => handleActionClick(task.id, 'delete')}
-                            >Delete</button
-                        >
+                        <button type="button" onclick={() => handleActionClick(task.id, 'delete')}>Delete</button>
                     {/if}
                 </li>
             {/each}

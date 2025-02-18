@@ -4,7 +4,7 @@ import { apiReference } from '@scalar/hono-api-reference';
 import packageJSON from '../../../../package.json';
 
 export default function configureOpenAPI(app: AppOpenAPI) {
-    app.doc('/api/doc', {
+    app.doc('/doc', {
         openapi: '3.0.0',
         info: {
             version: packageJSON.version,
@@ -12,9 +12,15 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         }
     });
 
-    app.get('/api/reference', apiReference({
+    app.get('/reference', apiReference({
         theme: 'saturn',
         layout: 'classic',
+        servers: [
+            {
+                url: 'http://localhost:5173/api',
+                description: 'Localhost',
+            },
+        ],
         defaultHttpClient: {
             targetKey: 'JavaScript',
             clientKey: 'Fetch',
