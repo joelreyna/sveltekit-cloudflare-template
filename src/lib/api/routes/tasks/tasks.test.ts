@@ -1,9 +1,31 @@
 import { describe, it, expect, expectTypeOf } from 'vitest';
-import { makeClient } from '$lib/api/make-client';
+import { testClient } from 'hono/testing';
 
-const client = makeClient(fetch, true);
+import createApp from '$lib/api/lib/createApp';
+import router from './tasks.index';
+
+const app = createApp({ testing: true });
+const client = testClient(app.route('', router));
 
 describe('Tasks list', () => {
+    const id = 1;
+    const name = "Learn vitest";
+
+    it("post /tasks creates a task", async () => {
+        const response = await client.tasks.$post({
+        json: {
+            name,
+            done: false,
+        },
+        });
+        expect(response.status).toBe(200);
+        if (response.status === 200) {
+            const json = await response.json();
+            expect(json.name).toBe(name);
+            expect(json.done).toBe(false);
+        }
+    });
+
     it('responds with an array', async () => {
         const res = await client.tasks.$get();
         const result = await res.json();

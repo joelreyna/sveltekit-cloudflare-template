@@ -3,7 +3,7 @@ import configureOpenAPI from '$lib/api/lib/configure-openapi';
 import index from '$lib/api/routes/index.route';
 import tasks from '$lib/api/routes/tasks/tasks.index';
 
-const app = createApp();
+const app = createApp({ testing: false });
 
 const apiRouter = createRouter()
     .route('', index)
