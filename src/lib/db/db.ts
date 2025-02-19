@@ -20,6 +20,8 @@ async function initDbConnectionDev() {
 }
 
 function initDbConnection() {
+    console.log("Initiating DB connection")
+    console.log(_prodDB)
     return drizzle(_prodDB as D1Database, {
         schema
     });

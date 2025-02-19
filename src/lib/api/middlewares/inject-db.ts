@@ -7,6 +7,8 @@ export const injectDB = createMiddleware(async (c, next) => {
     if (process.env.VITEST) {
         c.set('db', dbTesting);
     } else {
+        console.log("Injecting DB")
+        console.log(db)
         c.set('db', db);
     }
 
