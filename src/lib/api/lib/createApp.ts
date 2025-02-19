@@ -6,7 +6,6 @@ import { pinoLoggerMiddleware } from '$lib/api/middlewares/pinno-logger';
 import { injectDB } from '$lib/api/middlewares/inject-db';
 import { setProdDBMiddleware } from '$lib/api/middlewares/set-prod-db';
 import type { AppBindings } from './types';
-import { env } from 'node:process';
 
 export function createRouter() {
     return new OpenAPIHono<AppBindings>({
@@ -19,10 +18,6 @@ export default function createApp() {
     const app = new OpenAPIHono<AppBindings>({
         strict: false
     });
-
-    console.log("ENV VARIABLES")
-    console.log(JSON.stringify(env));
-
     app.use(serveEmojiFavicon("👋"));
     if (process.env.VITEST !== 'true') {
         app.use(pinoLoggerMiddleware());
