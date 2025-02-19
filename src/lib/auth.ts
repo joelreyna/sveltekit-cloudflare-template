@@ -10,8 +10,6 @@ function getDB() {
     if (ENVIRONMENT === "development") {
         return db as DB;
     }
-    console.log("Waiting for DB");
-    console.log(getProdDB());
     return drizzle(getProdDB() as D1Database, {
         schema
     }) as DB;

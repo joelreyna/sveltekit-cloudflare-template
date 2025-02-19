@@ -18,6 +18,10 @@ export default function createApp() {
     const app = new OpenAPIHono<AppBindings>({
         strict: false
     });
+
+    console.log("ENV VARIABLES")
+    console.log(JSON.stringify(process.env));
+
     app.use(serveEmojiFavicon("👋"));
     if (process.env.VITEST !== 'true') {
         app.use(pinoLoggerMiddleware());
