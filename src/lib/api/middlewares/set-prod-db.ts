@@ -1,12 +1,9 @@
 import { createMiddleware } from 'hono/factory';
 import { getProdDB, setProdDB } from '$lib/db/db';
+import { ENVIRONMENT } from '$env/static/private';
 
 export const setProdDBMiddleware = createMiddleware(async (c, next) => {
-    console.log("Setting Prod DB")
-    console.log(process.env.NODE_ENV)
-    console.log(getProdDB())
-    console.log(c.env.DB)
-    if (process.env.NODE_ENV === "production" && getProdDB() === null) {
+    if (ENVIRONMENT === "production" && getProdDB() === null) {
         setProdDB(c.env.DB);
     }
     return await next();
