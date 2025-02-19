@@ -3,6 +3,9 @@
     import { invalidate } from '$app/navigation';
     import { makeClient } from '$lib/api/make-client.js';
 
+    import { authClient } from "$lib/auth-client";
+    const session = authClient.useSession();
+
     const { data } = $props();
     const client = makeClient(fetch);
 
@@ -36,6 +39,45 @@
         }
     }
 </script>
+
+<div>
+    {#if $session.data}
+      <div>
+        <p>
+          {$session?.data?.user.name}
+        </p>
+        <button
+          onclick={async () => {
+            await authClient.signOut();
+          }}
+        >
+          Sign Out
+        </button>
+      </div>
+    {:else}
+      <button
+        onclick={async () => {
+          await authClient.signUp.email({
+            email: "test2@test.com",
+            password: "testtest1234",
+            name: "test"
+          });
+        }}
+      >
+        SignUp
+      </button>
+      <button
+        onclick={async () => {
+          await authClient.signIn.email({
+            email: "test2@test.com",
+            password: "testtest1234",
+          });
+        }}
+      >
+        SignIn
+      </button>
+    {/if}
+  </div>
 
 <h1>BTMW: The best task manager in the world</h1>
 

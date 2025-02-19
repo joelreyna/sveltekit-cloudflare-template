@@ -22,6 +22,20 @@
       "when": 1739400840331,
       "tag": "0002_lush_toxin",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1739994710679,
+      "tag": "0003_safe_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1739995321717,
+      "tag": "0004_swift_stark_industries",
+      "breakpoints": true
     }
   ]
 }
