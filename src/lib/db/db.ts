@@ -11,7 +11,7 @@ async function initDbConnectionDev() {
 }
 
 function initDbConnection() {
-    return drizzle(process.env.DB as unknown as D1Database, {
+    return drizzle(env.DB as D1Database, {
         schema
     });
 }
