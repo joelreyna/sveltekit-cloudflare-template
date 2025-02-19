@@ -10,10 +10,12 @@ async function initDbConnectionDev() {
     });
 }
 
-function initDbConnection() {
+async function initDbConnection() {
+    console.log(process.env)
+    console.log(env)
     return drizzle(env.DB as D1Database, {
         schema
     });
 }
 
-export const db = process.env.NODE_ENV === "production" ? initDbConnection() : await initDbConnectionDev()
+export const db = process.env.NODE_ENV === "production" ? await initDbConnection() : await initDbConnectionDev()
