@@ -9,7 +9,7 @@ const router = createRouter()
     .openapi(createRoute({
         tags: ['Index'],
         method: 'get',
-        path: '/',
+        path: '',
         responses: {
             [HttpStatusCodes.OK]: jsonContent(
                 createMessageObjectSchema("Tasks API"),

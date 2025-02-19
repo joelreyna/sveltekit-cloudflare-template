@@ -2,13 +2,13 @@ import { notFoundSchema } from '$lib/api/lib/constants';
 import { insertTasksSchema, patchTasksSchema, selectTasksSchema } from '$lib/db/schema';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContent, jsonContentOneOf, jsonContentRequired } from 'stoker/openapi/helpers';
+import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 
 const tags = ['Tasks'];
 
 export const list = createRoute({
-    path: '/tasks',
+    path: 'tasks',
     method: 'get',
     tags,
     responses: {
@@ -20,7 +20,7 @@ export const list = createRoute({
 });
 
 export const create = createRoute({
-    path: '/tasks',
+    path: 'tasks',
     method: 'post',
     request: {
         body: jsonContentRequired(
@@ -42,7 +42,7 @@ export const create = createRoute({
 });
 
 export const getOne = createRoute({
-    path: '/tasks/{id}',
+    path: 'tasks/{id}',
     method: 'get',
     request: {
         params: IdParamsSchema
@@ -65,7 +65,7 @@ export const getOne = createRoute({
 });
 
 export const patch = createRoute({
-    path: '/tasks/{id}',
+    path: 'tasks/{id}',
     method: 'patch',
     request: {
         params: IdParamsSchema,
@@ -93,7 +93,7 @@ export const patch = createRoute({
 });
 
 export const remove = createRoute({
-    path: '/tasks/{id}',
+    path: 'tasks/{id}',
     method: 'delete',
     request: {
         params: IdParamsSchema,

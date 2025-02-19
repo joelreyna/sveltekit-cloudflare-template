@@ -6,8 +6,8 @@ import tasks from '$lib/api/routes/tasks/tasks.index';
 const app = createApp();
 
 const apiRouter = createRouter()
-    .route('', index)
-    .route('', tasks);
+    .route('/', index)
+    .route('/', tasks);
 
 configureOpenAPI(apiRouter);
 
