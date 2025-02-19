@@ -2,6 +2,13 @@ import { drizzle } from 'drizzle-orm/d1';
 
 import * as schema from '$lib/db/schema';
 
+let _prodDB: D1Database | null = null;
+
+export const getProdDB = () => _prodDB;
+export const setProdDB = (db: D1Database) => {
+    _prodDB = db;
+};
+
 async function initDbConnectionDev() {
     if (process.env.NODE_ENV === "development") {
         const { getPlatformProxy } = await import('wrangler');
@@ -13,9 +20,7 @@ async function initDbConnectionDev() {
 }
 
 function initDbConnection() {
-    console.log(process.env)
-
-    return drizzle(process.env.DB as unknown as D1Database, {
+    return drizzle(_prodDB as D1Database, {
         schema
     });
 }
