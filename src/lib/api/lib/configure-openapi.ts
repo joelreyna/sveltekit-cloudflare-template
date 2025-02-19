@@ -1,6 +1,7 @@
 import type { AppOpenAPI } from './types';
 import { apiReference } from '@scalar/hono-api-reference';
 
+import { PUBLIC_BASE_URL } from '$env/static/public';
 import packageJSON from '../../../../package.json';
 
 export default function configureOpenAPI(app: AppOpenAPI) {
@@ -17,7 +18,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         layout: 'classic',
         servers: [
             {
-                url: 'http://localhost:5173/api',
+                url: PUBLIC_BASE_URL + '/api',
                 description: 'Localhost',
             },
         ],
