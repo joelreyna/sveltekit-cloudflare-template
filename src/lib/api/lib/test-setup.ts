@@ -6,19 +6,18 @@ import fs from 'fs';
 import * as schema from '$lib/db/schema';
 
 let sqlite: Database.Database;
-export let db: ReturnType<typeof drizzle>;
+export let dbTesting: ReturnType<typeof drizzle>;
 
-// Only run in test environment
 if (process.env.VITEST) {
     const { beforeAll, afterAll } = await import('vitest');
     
     beforeAll(() => {
         fs.rmSync('./test.db', { force: true });
         sqlite = new Database('./test.db');
-        db = drizzle(sqlite, { schema });
+        dbTesting = drizzle(sqlite, { schema });
         
         const { migrate } = require('drizzle-orm/better-sqlite3/migrator');
-        migrate(db, {
+        migrate(dbTesting, {
             migrationsFolder: join(process.cwd(), 'src/lib/db/migrations')
         });
     });

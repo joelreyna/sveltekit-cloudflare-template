@@ -4,7 +4,6 @@ import { defaultHook } from 'stoker/openapi';
 
 import { pinoLoggerMiddleware } from '$lib/api/middlewares/pinno-logger';
 import { injectDB } from '$lib/api/middlewares/inject-db';
-import { injectDBTesting } from '$lib/api/middlewares/inject-db-testing';
 import type { AppBindings } from './types';
 
 export function createRouter() {
@@ -14,17 +13,15 @@ export function createRouter() {
     });
 }
 
-export default function createApp({ testing = false }: { testing?: boolean }) {
+export default function createApp() {
     const app = new OpenAPIHono<AppBindings>({
         strict: false
     });
     app.use(serveEmojiFavicon("👋"));
-    if (!testing) {
+    if (process.env.VITEST !== 'true') {
         app.use(pinoLoggerMiddleware());
-        app.use(injectDB);
-    } else {
-        app.use(injectDBTesting);
     }
+    app.use(injectDB);
 
     app.notFound(notFound);
     app.onError(onError);

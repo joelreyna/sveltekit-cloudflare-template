@@ -84,8 +84,9 @@ export const patch = createRoute({
             notFoundSchema,
             "The task was not found"
         ),
-        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
-            [createErrorSchema(patchTasksSchema), createErrorSchema(IdParamsSchema)],
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+            createErrorSchema(patchTasksSchema)
+                .or(createErrorSchema(IdParamsSchema)),
             "The validation error(s)"
         )
     }
