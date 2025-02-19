@@ -8,7 +8,7 @@ export const injectDB = createMiddleware(async (c, next) => {
         c.set('db', dbTesting);
     } else {
         console.log("Injecting DB")
-        console.log(db)
+        console.log(JSON.stringify(db, null, 2))
         c.set('db', db);
     }
 
