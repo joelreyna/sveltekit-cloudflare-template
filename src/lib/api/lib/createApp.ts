@@ -4,7 +4,6 @@ import { defaultHook } from 'stoker/openapi';
 
 import { pinoLoggerMiddleware } from '$lib/api/middlewares/pinno-logger';
 import { injectDB } from '$lib/api/middlewares/inject-db';
-import { setProdDBMiddleware } from '$lib/api/middlewares/set-prod-db';
 import type { AppBindings } from './types';
 
 export function createRouter() {
@@ -22,7 +21,6 @@ export default function createApp() {
     if (process.env.VITEST !== 'true') {
         app.use(pinoLoggerMiddleware());
     }
-    app.use(setProdDBMiddleware);
     app.use(injectDB);
 
     app.notFound(notFound);

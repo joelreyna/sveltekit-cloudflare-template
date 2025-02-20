@@ -19,7 +19,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         servers: [
             {
                 url: PUBLIC_BASE_URL + '/api',
-                description: 'Localhost',
+                description: 'API Base URL',
             },
         ],
         defaultHttpClient: {
