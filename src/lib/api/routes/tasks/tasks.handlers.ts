@@ -9,6 +9,12 @@ import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from '$lib/api/lib/constants';
 import { getDeletedCount } from '$lib/db/utils';
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
+    const user = c.var.user;
+    const session = c.var.session;
+
+    console.log(user);
+    console.log(session);
+
     const tasks = await c.var.db.query.tasks.findMany();
     return c.json(tasks);
 }

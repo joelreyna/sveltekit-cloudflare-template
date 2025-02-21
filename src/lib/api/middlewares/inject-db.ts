@@ -8,7 +8,7 @@ export const injectDB = createMiddleware(async (c, next) => {
     if (process.env.VITEST) {
         c.set('db', dbTesting);
     } else {
-        const db = drizzle(c.env.DB as D1Database, {
+        const db = drizzle(c.env.DB, {
             schema
         });
         c.set('db', db);

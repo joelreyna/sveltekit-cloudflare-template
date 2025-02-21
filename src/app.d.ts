@@ -7,6 +7,10 @@ declare global {
             cf: CfProperties
             ctx: ExecutionContext
         }
+        interface Locals {
+            session: Session | null
+            user: User | null
+        }
     }
 }
 
